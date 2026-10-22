@@ -1,5 +1,5 @@
 {
-  "name": "devops-pipeline",
+  "name": "@eman-babar/devops-pipeline",
   "version": "1.1.0",
   "main": "tools/build.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "build": "node tools/build.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Akasha Fatima",
   "license": "ISC",
   "description": "DevOps Lab 05 pipeline project",
   "dependencies": {
@@ -19,5 +19,12 @@
   "files": [
     "tools/",
     "README.md"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eman-Babar/27-FYP-218.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }
