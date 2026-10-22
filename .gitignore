@@ -16,3 +16,7 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+node_modules/
+out/
+*.tgz
