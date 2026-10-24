@@ -1,6 +1,6 @@
 {
   "name": "@eman-babar/devops-pipeline",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "main": "tools/build.js",
   "scripts": {
     "test": "node --test",
