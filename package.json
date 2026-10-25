@@ -1,16 +1,20 @@
 {
   "name": "@eman-babar/devops-pipeline",
   "version": "1.1.0",
+  "description": "Renders the course Markdown sources into HTML pages.",
   "main": "tools/build.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "node --test",
     "build": "node tools/build.js"
   },
   "keywords": [],
-  "author": "Akasha Fatima",
+  "author": "",
   "license": "ISC",
-  "description": "DevOps Lab 05 pipeline project",
   "dependencies": {
+    "js-yaml": "^4.3.2",
     "markdown-it": "^15.0.3"
   },
   "bin": {
@@ -20,11 +24,10 @@
     "tools/",
     "README.md"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Eman-Babar/27-FYP-218.git"
-  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "url": "git+https://github.com/Eman-Babar/27-FYP-218.git"
   }
 }

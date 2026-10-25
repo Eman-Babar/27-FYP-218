@@ -20,3 +20,13 @@ Desktop.ini
 node_modules/
 out/
 *.tgz
+
+# Windows metadata
+*:Zone.Identifier
+node_modules/
+out/
+*.tgz
+
+node_modules/
+out/
+*.tgz
