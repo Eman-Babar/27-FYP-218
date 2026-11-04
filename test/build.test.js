@@ -39,3 +39,7 @@ test('each page title is its source filename', () => {
 test('services page exists', () => {
   assert.ok(fs.existsSync('out/our-services.html'));
 });
+
+test('legacy services page remains available', () => {
+  assert.ok(fs.existsSync('out/our-services.html'));
+});
