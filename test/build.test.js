@@ -24,4 +24,18 @@ test('every page is non-empty', () => {
     assert.ok(html.trim().length > 0, `${p} is empty`);
   }
 });
+test('each page title is its source filename', () => {
+  for (const p of pages) {
+    const html = fs.readFileSync('out/' + p, 'utf8');
+    const expectedTitle = p
+      .replace('.html', '')
+      .replace(/-/g, ' ')
+      .toUpperCase();
 
+    assert.ok(html.includes('<title>' + expectedTitle + '</title>'));
+  }
+});
+
+test('services page exists', () => {
+  assert.ok(fs.existsSync('out/our-services.html'));
+});
