@@ -37,3 +37,7 @@ test('each page title is its source filename', () => {
 test('services page exists', () => {
   assert.ok(fs.existsSync('out/our-services.html'));
 });
+test('services page has the expected title', () => {
+  const html = fs.readFileSync('out/our-services.html', 'utf8');
+  assert.ok(html.includes('<title>Our Services</title>'));
+});
