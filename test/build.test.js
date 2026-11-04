@@ -29,7 +29,7 @@ test('each page title is its source filename', () => {
     const expectedTitle = p
       .replace('.html', '')
       .replace(/-/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+      .toUpperCase();
 
     assert.ok(html.includes('<title>' + expectedTitle + '</title>'));
   }
