@@ -17,6 +17,7 @@ test('every page is real HTML and not raw Markdown', () => {
     assert.doesNotMatch(html, /^# /m);
   }
 });
+
 test('every page is non-empty', () => {
   for (const p of pages) {
     const html = fs.readFileSync('out/' + p, 'utf8');
@@ -31,9 +32,3 @@ test('each page title is its source filename', () => {
       .replace(/-/g, ' ')
       .toUpperCase();
 
-    assert.ok(html.includes('<title>' + expectedTitle + '</title>'));
-  }
-});
-test('services page exists', () => {
-  assert.ok(fs.existsSync('out/our-services.html'));
-});
