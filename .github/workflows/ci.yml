@@ -22,3 +22,10 @@ jobs:
 
       - name: Run CI checks
         run: make ci
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: devops-pipeline
+          path: '*.tgz'
+          if-no-files-found: error
