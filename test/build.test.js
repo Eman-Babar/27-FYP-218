@@ -1,3 +1,4 @@
+
 // test/build.test.js — runs on Node's built-in test runner. No test framework.
 const { test } = require('node:test');
 const assert = require('node:assert');
@@ -37,5 +38,8 @@ test('each page title is its source filename', () => {
 });
 
 test('services page exists', () => {
+  assert.ok(fs.existsSync('out/services.html'));
+});
+test('old services output is present', () => {
   assert.ok(fs.existsSync('out/services.html'));
 });
