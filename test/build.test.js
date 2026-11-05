@@ -39,3 +39,9 @@ test('each page title is its source filename', () => {
 test('services page exists', () => {
   assert.ok(fs.existsSync('out/services.html'));
 });
+
+test('every page names the course', () => {
+  for (const p of pages) {
+    assert.match(fs.readFileSync('out/' + p, 'utf8'), /DevOps/);
+  }
+});
