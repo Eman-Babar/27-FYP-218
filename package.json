@@ -13,9 +13,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "js-yaml": "^3.14.1",
-    "markdown-it": "^15.0.3"
-  },
+  "markdown-it": "^15.0.3",
+  "js-yaml": "^4.1.0"
+},
   "bin": {
     "devops-build": "tools/build.js"
   },
