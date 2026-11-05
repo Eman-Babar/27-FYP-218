@@ -7,9 +7,11 @@ on:
     branches: [main]
   schedule:
     - cron: '0 2 * * *'
+
 jobs:
   build-and-test:
     runs-on: ubuntu-24.04
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,11 +19,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: '22'
           cache: npm
 
-
-      - name: Run CI checks
+      - name: Build, test and package
         run: make ci
 
       - name: Upload package artifact
@@ -30,10 +31,12 @@ jobs:
           name: devops-pipeline
           path: '*.tgz'
           if-no-files-found: error
+
   audit:
     name: dependency-audit
     runs-on: ubuntu-24.04
     if: github.event_name == 'schedule'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,7 +44,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: '22'
           cache: npm
 
       - name: Install dependencies
