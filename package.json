@@ -13,8 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-  "markdown-it": "^15.0.3",
-  "js-yaml": "^4.1.0"
+  "js-yaml": "^3.14.1",
+  "markdown-it": "^15.0.3"
 },
   "bin": {
     "devops-build": "tools/build.js"
