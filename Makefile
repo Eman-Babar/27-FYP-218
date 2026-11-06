@@ -1,12 +1,10 @@
-
-
 SRC_DIR := src
 OUT_DIR := out
 
 SOURCES := $(wildcard $(SRC_DIR)/*.md)
 OUTPUTS := $(patsubst $(SRC_DIR)/%.md,$(OUT_DIR)/%.html,$(SOURCES))
 
-.PHONY: all build check deps test clean package ci
+.PHONY: all build check deps test clean package ci lint
 
 all: check test
 
@@ -39,5 +37,8 @@ clean:
 package: test
 	npm pack
 
-ci: clean deps check test package
+lint: node_modules  ## static analysis: seconds, so it runs first
+	npm run --silent lint
+
+ci: clean deps check lint test package  ## everything, in pipeline order
 
