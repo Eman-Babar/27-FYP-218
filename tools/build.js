@@ -7,7 +7,6 @@ const path = require('path');
 const MarkdownIt = require('markdown-it');
 
 const md = new MarkdownIt({ html: false, linkify: true, typographer: true });
-const unusedVariable = 123;
 
 // The part worth testing: Markdown text in, a complete HTML page out.
 function renderPage(markdown, title) {
