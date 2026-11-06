@@ -6,7 +6,7 @@ OUT_DIR := out
 SOURCES := $(wildcard $(SRC_DIR)/*.md)
 OUTPUTS := $(patsubst $(SRC_DIR)/%.md,$(OUT_DIR)/%.html,$(SOURCES))
 
-.PHONY: all build check deps lint test clean package ci
+.PHONY: all build check deps lint test coverage clean package ci
 
 all: check test
 
@@ -33,10 +33,13 @@ build: $(OUTPUTS)
 
 test: build
 	@npm test --silent
-
+coverage: build
+	@mkdir -p coverage
+	node --test --experimental-test-coverage \
+	  --test-reporter=spec --test-reporter-destination=stdout \
+	  --test-reporter=lcov --test-reporter-destination=coverage/lcov.info
 clean:
-	rm -rf $(OUT_DIR) *.tgz
-
+	rm -rf $(OUT_DIR) coverage *.tgz
 package: test
 	npm pack
 

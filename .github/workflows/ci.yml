@@ -9,7 +9,7 @@ on:
     - cron: '0 2 * * *'
 
 jobs:
-  build-and-test:
+  lint:
     runs-on: ubuntu-24.04
 
     steps:
@@ -22,8 +22,49 @@ jobs:
           node-version: '22'
           cache: npm
 
-      - name: Build, test and package
-        run: make ci
+      - name: Run lint
+        run: make lint
+
+  test:
+    needs: lint
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Run tests and coverage
+        run: make coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+          if-no-files-found: error
+
+  package:
+    needs: test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build and package
+        run: make package
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
