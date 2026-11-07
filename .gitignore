@@ -17,10 +17,6 @@ Desktop.ini
 *.tmp
 *.temp
 
-node_modules/
-out/
-*.tgz
-
 # Windows metadata
 *:Zone.Identifier
 node_modules/
@@ -30,3 +26,5 @@ out/
 node_modules/
 out/
 *.tgz
+
+coverage/

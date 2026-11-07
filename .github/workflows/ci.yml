@@ -9,24 +9,57 @@ on:
     - cron: '0 2 * * *'
 
 jobs:
-  build-and-test:
+  lint:
+    name: lint
     runs-on: ubuntu-24.04
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
 
-      - name: Build, test and package
-        run: make ci
+      - run: make lint
 
-      - name: Upload package artifact
-        uses: actions/upload-artifact@v4
+  test:
+    name: test
+    needs: lint
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: make coverage
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+          if-no-files-found: error
+
+  package:
+    name: package
+    needs: test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: make package
+
+      - uses: actions/upload-artifact@v4
         with:
           name: devops-pipeline
           path: '*.tgz'
