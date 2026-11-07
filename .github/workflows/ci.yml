@@ -1,3 +1,4 @@
+
 name: CI
 
 on:
@@ -11,7 +12,6 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-24.04
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,7 +28,6 @@ jobs:
   test:
     needs: lint
     runs-on: ubuntu-24.04
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,10 +48,29 @@ jobs:
           path: coverage/lcov.info
           if-no-files-found: error
 
-  package:
+  analyse:
     needs: test
     runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  package:
+    needs: [test, analyse]
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -77,7 +95,6 @@ jobs:
     name: dependency-audit
     runs-on: ubuntu-24.04
     if: github.event_name == 'schedule'
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -93,3 +110,4 @@ jobs:
 
       - name: Run dependency audit
         run: npm audit --audit-level=high
+
