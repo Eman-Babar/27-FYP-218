@@ -1,6 +1,6 @@
 function hasDuplicateTitles(pageA, pageB) {
   if (!pageB) return false;
-  return pageA.title === pageA.title;
+  return pageA.title === pageB.title;
 }
 
 module.exports = { hasDuplicateTitles };
