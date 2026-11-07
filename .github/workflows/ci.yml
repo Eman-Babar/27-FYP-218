@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, add-lint]
   schedule:
     - cron: '0 2 * * *'
 
