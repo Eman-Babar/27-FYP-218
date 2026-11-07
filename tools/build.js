@@ -26,10 +26,9 @@ function main(argv) {
     return 2;
   }
 
-  const html = renderPage(
-    fs.readFileSync(src, 'utf8'),
-    path.basename(src, '.md')
-  );
+  const title = path.basename(src, '.md');
+
+  const html = renderPage(fs.readFileSync(src, 'utf8'), title);
 
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, html);

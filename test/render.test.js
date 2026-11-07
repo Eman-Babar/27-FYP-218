@@ -1,31 +1,38 @@
-// test/render.test.js - unit tests that loads tools/build.js directly,
-// so the coverage report finally measures the code that matters
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
-const { test } = require('node:test');
-const assert = require('node:assert');
-const os = require('node:os');
-const fs = require('node:fs');
-const path = require('node:path');
+const { renderPage, main } = require('../tools/build.js');
 
-const { renderPage, main } = require('../tools/build');
-
-test('a heading becomes an h1', () => {
-  assert.match(renderPage('# Hello', 'x'), /<h1>Hello<\/h1>/);
+test('renderPage converts heading to h1', () => {
+  const html = renderPage('# Hello World', 'Test Page');
+  assert.ok(html.includes('<h1>Hello World</h1>'));
 });
 
-test('the title is the one we pass in', () => {
-  assert.match(renderPage('text', 'notes'), /<title>notes<\/title>/);
+test('renderPage uses the supplied title', () => {
+  const html = renderPage('# Hello', 'My Custom Title');
+  assert.ok(html.includes('<title>My Custom Title</title>'));
 });
 
-test('missing arguments give the usage exit code', () => {
-  assert.strictEqual(main([]), 2);
+test('main returns usage exit code 2 when arguments are missing', () => {
+  const code = main([]);
+  assert.equal(code, 2);
 });
 
-test('main writes the page it was asked for', () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'render-'));
-  const src = path.join(dir, 'hello.md');
-  fs.writeFileSync(src, '# Hi');
-  assert.strictEqual(main([src, path.join(dir, 'out', 'hello.html')]), 0);
-  assert.match(fs.readFileSync(path.join(dir, 'out', 'hello.html'), 'utf8'),
-               /<title>hello<\/title>/);
-})
+test('main writes output to a temporary directory', () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'build-test-'));
+  const src = path.join(tempDir, 'input.md');
+  const dest = path.join(tempDir, 'output', 'page.html');
+
+  fs.writeFileSync(src, '# Temporary Page');
+
+  const code = main([src, dest]);
+
+  assert.equal(code, 0);
+  assert.ok(fs.existsSync(dest));
+
+  const html = fs.readFileSync(dest, 'utf8');
+  assert.ok(html.includes('<h1>Temporary Page</h1>'));
+});

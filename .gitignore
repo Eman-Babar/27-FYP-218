@@ -19,12 +19,9 @@ Desktop.ini
 
 # Windows metadata
 *:Zone.Identifier
+
+# Node and build files
 node_modules/
 out/
-*.tgz
-
-node_modules/
-out/
-*.tgz
-
 coverage/
+*.tgz
