@@ -7,10 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node --test",
-    "build": "node tools/build.js"
-  },
-  "keywords": [],
+  "test": "node --test",
+  "build": "node tools/build.js",
+  "lint": "eslint ."
+  }, "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -29,5 +29,10 @@
   },
   "repository": {
     "url": "git+https://github.com/Eman-Babar/27-FYP-218.git"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0"
   }
 }

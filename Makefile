@@ -6,7 +6,7 @@ OUT_DIR := out
 SOURCES := $(wildcard $(SRC_DIR)/*.md)
 OUTPUTS := $(patsubst $(SRC_DIR)/%.md,$(OUT_DIR)/%.html,$(SOURCES))
 
-.PHONY: all build check deps test clean package ci
+.PHONY: all build check deps lint test coverage clean package ci
 
 all: check test
 
@@ -15,7 +15,8 @@ node_modules: package.json package-lock.json
 	@touch node_modules
 
 deps: node_modules
-
+lint: node_modules
+	npm run --silent lint
 $(OUT_DIR)/%.html: $(SRC_DIR)/%.md package-lock.json | $(OUT_DIR) node_modules
 	@echo "  BUILD $< -> $@"
 	@npm run --silent build -- $< $@
@@ -32,12 +33,14 @@ build: $(OUTPUTS)
 
 test: build
 	@npm test --silent
-
+coverage: build
+	@mkdir -p coverage
+	node --test --experimental-test-coverage \
+	  --test-reporter=spec --test-reporter-destination=stdout \
+	  --test-reporter=lcov --test-reporter-destination=coverage/lcov.info
 clean:
-	rm -rf $(OUT_DIR) *.tgz
-
+	rm -rf $(OUT_DIR) coverage *.tgz
 package: test
 	npm pack
 
-ci: clean deps check test package
-
+ci: clean deps check lint test package
