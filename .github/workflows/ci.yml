@@ -3,9 +3,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, add-lint]
   pull_request:
-    branches: [main]
+    branches: [main, add-lint]
   schedule:
     - cron: '0 2 * * *'
 
