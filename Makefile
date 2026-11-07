@@ -1,5 +1,3 @@
-
-
 SRC_DIR := src
 OUT_DIR := out
 
@@ -15,8 +13,10 @@ node_modules: package.json package-lock.json
 	@touch node_modules
 
 deps: node_modules
+
 lint: node_modules
 	npm run --silent lint
+
 $(OUT_DIR)/%.html: $(SRC_DIR)/%.md package-lock.json | $(OUT_DIR) node_modules
 	@echo "  BUILD $< -> $@"
 	@npm run --silent build -- $< $@
@@ -33,13 +33,16 @@ build: $(OUTPUTS)
 
 test: build
 	@npm test --silent
+
 coverage: build
 	@mkdir -p coverage
 	node --test --experimental-test-coverage \
 	  --test-reporter=spec --test-reporter-destination=stdout \
 	  --test-reporter=lcov --test-reporter-destination=coverage/lcov.info
+
 clean:
 	rm -rf $(OUT_DIR) coverage *.tgz
+
 package: test
 	npm pack
 

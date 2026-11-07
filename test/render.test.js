@@ -20,6 +20,7 @@ test('main returns usage exit code 2 when arguments are missing', () => {
   const code = main([]);
   assert.equal(code, 2);
 });
+
 test('main writes output to a temporary directory', () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'build-test-'));
   const src = path.join(tempDir, 'input.md');

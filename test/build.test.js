@@ -23,13 +23,12 @@ test('every page is non-empty', () => {
     const html = fs.readFileSync('out/' + p, 'utf8');
     assert.ok(html.trim().length > 0);
   }
-});test('each page title is its source filename', () => {
+});
+
+test('each page title is its source filename', () => {
   for (const p of pages) {
     const html = fs.readFileSync('out/' + p, 'utf8');
-    const expectedTitle = p
-      .replace('.html', '')
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+    const expectedTitle = p.replace('.html', '');
 
     assert.ok(html.includes('<title>' + expectedTitle + '</title>'));
   }

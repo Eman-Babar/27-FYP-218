@@ -20,16 +20,19 @@ ${md.render(markdown)}</html>
 
 function main(argv) {
   const [src, dest] = argv;
+
   if (!src || !dest) {
     console.error('usage: build.js <source.md> <dest.html>');
     return 2;
   }
-  const title = path.basename(src, '.md')
-  .replace(/-/g, ' ')
-  .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  const title = path.basename(src, '.md');
+
   const html = renderPage(fs.readFileSync(src, 'utf8'), title);
+
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, html);
+
   return 0;
 }
 
@@ -38,4 +41,3 @@ module.exports = { renderPage, main };
 if (require.main === module) {
   process.exitCode = main(process.argv.slice(2));
 }
-

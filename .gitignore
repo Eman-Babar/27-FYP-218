@@ -17,17 +17,11 @@ Desktop.ini
 *.tmp
 *.temp
 
-node_modules/
-out/
-*.tgz
-
 # Windows metadata
 *:Zone.Identifier
-node_modules/
-out/
-*.tgz
 
+# Node and build files
 node_modules/
 out/
-*.tgz
 coverage/
+*.tgz
