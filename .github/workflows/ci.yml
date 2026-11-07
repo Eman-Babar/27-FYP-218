@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, add-lint]
   pull_request:
-    branches: [main]
+    branches: [main, add-lint]
   schedule:
     - cron: '0 2 * * *'
 
@@ -12,32 +12,27 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-
-      - run: make lint
+      - name: Run lint
+        run: make lint
 
   test:
     name: test
     needs: lint
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-
-      - run: make coverage
-
+      - name: Run tests and coverage
+        run: make coverage
       - uses: actions/upload-artifact@v4
         with:
           name: coverage
@@ -67,17 +62,31 @@ jobs:
     name: package
     needs: [test, analyse]
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+  package:
+    name: package
+    needs: [test, analyse]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-
-      - run: make package
-
+      - name: Build and package
+        run: make package
       - uses: actions/upload-artifact@v4
         with:
           name: devops-pipeline
@@ -88,19 +97,13 @@ jobs:
     name: dependency-audit
     runs-on: ubuntu-24.04
     if: github.event_name == 'schedule'
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-
       - name: Install dependencies
         run: npm ci
-
       - name: Run dependency audit
         run: npm audit --audit-level=high

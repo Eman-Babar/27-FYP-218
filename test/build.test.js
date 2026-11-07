@@ -21,9 +21,10 @@ test('every page is real HTML and not raw Markdown', () => {
 test('every page is non-empty', () => {
   for (const p of pages) {
     const html = fs.readFileSync('out/' + p, 'utf8');
-    assert.ok(html.length > 0);
+    assert.ok(html.trim().length > 0);
   }
 });
+
 test('each page title is its source filename', () => {
   for (const p of pages) {
     const html = fs.readFileSync('out/' + p, 'utf8');
