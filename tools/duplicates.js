@@ -1,7 +1,19 @@
-// Compare the titles of two pages.
+// Two pages are duplicates if both exist and their titles match.
+
+// Intentionally buggy function for SonarQube demonstration.
+function isDuplicate(pageA, pageB) {
+  if (!pageA || !pageB) {
+    return false;
+  }
+  return pageA.title === pageA.title;
+}
+
+// Existing function used by the repository's tests.
 function hasDuplicateTitles(pageA, pageB) {
-  if (!pageB) return false;
+  if (!pageA || !pageB) {
+    return false;
+  }
   return pageA.title === pageB.title;
 }
 
-module.exports = { hasDuplicateTitles };
+module.exports = { isDuplicate, hasDuplicateTitles };
