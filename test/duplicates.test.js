@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { hasDuplicateTitles, isDuplicate } = require('../tools/duplicates');
+const { hasDuplicateTitles } = require('../tools/duplicates');
 
 test('detects matching page titles', () => {
   const pageA = { title: 'Home' };
@@ -21,16 +21,17 @@ test('returns false when second page is missing', () => {
 
   assert.equal(hasDuplicateTitles(pageA, null), false);
 });
+
 test('isDuplicate returns true when titles match', () => {
   const pageA = { title: 'Home' };
   const pageB = { title: 'Home' };
 
-  assert.equal(isDuplicate(pageA, pageB), true);
+  assert.equal(require('../tools/duplicates').isDuplicate(pageA, pageB), true);
 });
 
 test('isDuplicate returns false when titles differ', () => {
   const pageA = { title: 'Home' };
   const pageB = { title: 'About' };
 
-  assert.equal(isDuplicate(pageA, pageB), false);
+  assert.equal(require('../tools/duplicates').isDuplicate(pageA, pageB), false);
 });
