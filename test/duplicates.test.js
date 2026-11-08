@@ -21,3 +21,17 @@ test('returns false when second page is missing', () => {
 
   assert.equal(hasDuplicateTitles(pageA, null), false);
 });
+
+test('isDuplicate returns true when titles match', () => {
+  const pageA = { title: 'Home' };
+  const pageB = { title: 'Home' };
+
+  assert.equal(require('../tools/duplicates').isDuplicate(pageA, pageB), true);
+});
+
+test('isDuplicate returns false when titles differ', () => {
+  const pageA = { title: 'Home' };
+  const pageB = { title: 'About' };
+
+  assert.equal(require('../tools/duplicates').isDuplicate(pageA, pageB), false);
+});

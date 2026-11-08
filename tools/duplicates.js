@@ -5,7 +5,7 @@ function isDuplicate(pageA, pageB) {
   if (!pageA || !pageB) {
     return false;
   }
-  return pageA.title === pageA.title;
+  return pageA.title === pageB.title;
 }
 
 // Existing function used by the repository's tests.
